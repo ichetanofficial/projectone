@@ -4,6 +4,14 @@ const format = require("date-format");
 
 const app = express();
 
+
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load("./swagger.yaml");
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+
 const PORT = process.env.PORT || 4000;
 
 app.get("/", (req, res)=>{
@@ -46,7 +54,7 @@ app.get("/api/v1/linkedin", (req, res)=>{
 
 app.get("/api/v1/:token", (req, res)=>{
     console.log(req.params.token);
-    req.status(200).send({params : req.params.token});
+    res.status(200).send({params : req.params.token});
 })
 
 
